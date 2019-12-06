@@ -1,0 +1,7 @@
+environ
+Django
+django-environ
+djangorestframework
+django-filter
+psycopg2
+django-imagekit
