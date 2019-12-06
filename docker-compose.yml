@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+  db:
+    image: postgres
+  nginx:
+    restart: always
+    image: nginx:latest
+    expose:
+      - 8080
+    ports:
+      - 80:8080
+    volumes:
+        - ./app/uploads:/srv/www/photoapi/media
+        - ./docker/nginx:/etc/nginx/conf.d
+    depends_on:
+        - web
+  web:
+    restart: always
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    volumes:
+        - ./app:/srv/www/photoapi
+    expose:
+      - 8000
+    ports:
+        - 8000:8000
+    command: python manage.py runserver 0.0.0.0:8000
+    depends_on:
+      - postgres
+  postgres:
+      image: postgres:latest
+      ports:
+          - 5432:5432
+      environment:
+          POSTGRES_USER: api
+          POSTGRES_PASSWORD: qwerty
+          POSTGRES_DB: api
+      volumes:
+          - ./docker/data:/var/lib/postgresql/data
