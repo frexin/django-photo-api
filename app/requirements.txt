@@ -1,3 +1,4 @@
+pillow
 environ
 Django
 django-environ
