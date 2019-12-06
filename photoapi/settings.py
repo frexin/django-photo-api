@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-
+import sys
 import environ
 
 root = environ.Path(__file__) - 3
@@ -21,10 +21,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '9vyoa5iq2jv8ucaa&&(h7l$w!)+d!_x9r&#j9&&u8pqlxqvv^j'
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -96,6 +93,9 @@ DATABASES = {
         'HOST': env.str('DB_HOST')
     }
 }
+
+if 'test' in sys.argv or 'test_coverage' in sys.argv:
+    DATABASES['default']['ENGINE'] = 'django.db.backends.sqlite3'
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
